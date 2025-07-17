@@ -1,5 +1,5 @@
-use serde::{Serialize, Deserialize};
-use chrono::{NaiveDate, DateTime, Utc};
+use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Adherent {
