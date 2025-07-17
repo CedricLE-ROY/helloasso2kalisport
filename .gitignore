@@ -1,2 +1,4 @@
-/dist/
-/target/
+/backend/target/
+/frontend/dist/
+/frontend/target/
+/shared/target
