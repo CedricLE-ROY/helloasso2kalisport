@@ -1,0 +1,7 @@
+/home/cedric_le_roy/Développement/Rust/helloasso2kalisport/target/wasm32-unknown-unknown/debug/deps/futures-5ac0e3820b00da17.d: /home/cedric_le_roy/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-0.3.31/src/lib.rs
+
+/home/cedric_le_roy/Développement/Rust/helloasso2kalisport/target/wasm32-unknown-unknown/debug/deps/libfutures-5ac0e3820b00da17.rlib: /home/cedric_le_roy/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-0.3.31/src/lib.rs
+
+/home/cedric_le_roy/Développement/Rust/helloasso2kalisport/target/wasm32-unknown-unknown/debug/deps/libfutures-5ac0e3820b00da17.rmeta: /home/cedric_le_roy/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-0.3.31/src/lib.rs
+
+/home/cedric_le_roy/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-0.3.31/src/lib.rs:
