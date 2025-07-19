@@ -6,4 +6,6 @@ pub enum Route {
     Home,
     #[at("/helloasso")]
     HelloAsso,
+    #[at("/saison/:id")]
+    Saison { id: u32 },
 }
