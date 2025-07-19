@@ -18,4 +18,15 @@ cd frontend
 trunk serve --port 8081 --open
 ```
 
-Le backend fonctionne sur `http://localhost:8080`. Le frontend est servi sur `http://localhost:8081` grâce au fichier `frontend/Trunk.toml` qui configure également un proxy des requêtes `/api` vers le backend.
+Le backend fonctionne sur `http://localhost:8080`. Le frontend est servi sur `http://localhost:8081` grâce au fichier `frontend/Trunk.toml`.
+
+Veillez à exécuter Trunk **depuis le dossier `frontend`** (ou avec `-c frontend/Trunk.toml`) pour que la configuration suivante soit appliquée :
+
+```toml
+[serve]
+port = 8081
+
+[[proxy]]
+backend = "http://localhost:8080/api"
+rewrite = "/api"
+```
