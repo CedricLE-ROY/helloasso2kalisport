@@ -10,3 +10,9 @@ pub struct Adherent {
     // autres champs selon HelloAsso/Kalisport
     pub deja_exporte: bool,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Saison {
+    pub id: u32,
+    pub nom: String,
+}
