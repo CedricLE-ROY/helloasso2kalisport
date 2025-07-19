@@ -13,3 +13,5 @@ trunk serve --open
 ```
 
 La page d'accueil s'affichera alors sur `http://localhost:8080` pour le backend et `http://localhost:8080` (ou port utilisé par Trunk) pour le frontend.
+
+Le port du backend peut être configuré en définissant la variable d'environnement `PORT`. Par défaut, il utilise le port `8080`.

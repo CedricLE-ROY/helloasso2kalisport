@@ -98,7 +98,11 @@ pub async fn run() {
             Method::POST,
             Method::OPTIONS,
         ]));
-    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], 8080));
+    let port = std::env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse::<u16>().ok())
+        .unwrap_or(8080);
+    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], port));
     println!("Serveur backend lancé sur http://{}", addr);
 
     let listener = TcpListener::bind(addr).await.unwrap();
