@@ -4,7 +4,9 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen(start)]
 pub fn main() {
     wasm_logger::init(wasm_logger::Config::default());
-    yew::Renderer::<frontend::App>::new().render();
+    yew::Renderer::<app::App>::new().render();
 }
 
-mod frontend;
+mod app;
+pub mod pages;
+pub mod routes;
