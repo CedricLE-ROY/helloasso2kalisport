@@ -17,4 +17,4 @@ cargo run -p backend
 trunk serve --port 8081 --open
 ```
 
-Dans les deux cas, le backend sera accessible sur `http://localhost:8080` et le frontend sur `http://localhost:8081` (ou le port choisi par Trunk).
+Le backend fonctionne sur `http://localhost:8080`. Le frontend est servi sur `http://localhost:8081` grâce au fichier `frontend/Trunk.toml` qui configure également un proxy des requêtes `/api` vers le backend.
