@@ -18,13 +18,15 @@ pub fn saison_page(props: &SaisonPageProps) -> Html {
         let id = props.saison_id;
         use_effect_with(id, move |_| {
             spawn_local(async move {
-                if let Ok(resp) = Request::get(&format!("/api/saisons/{}/adhesions", id))
-                    .send()
-                    .await
+                if let Ok(data) = async {
+                    let resp = Request::get(&format!("/api/saisons/{id}/adhesions"))
+                        .send()
+                        .await?;
+                    resp.json::<Vec<Adherent>>().await
+                }
+                .await
                 {
-                    if let Ok(data) = resp.json::<Vec<Adherent>>().await {
-                        adherents.set(data);
-                    }
+                    adherents.set(data);
                 }
             });
             || ()
@@ -37,13 +39,15 @@ pub fn saison_page(props: &SaisonPageProps) -> Html {
         Callback::from(move |_e: MouseEvent| {
             let adherents = adherents.clone();
             spawn_local(async move {
-                if let Ok(resp) = Request::get(&format!("/api/saisons/{}/adhesions", id))
-                    .send()
-                    .await
+                if let Ok(data) = async {
+                    let resp = Request::get(&format!("/api/saisons/{id}/adhesions"))
+                        .send()
+                        .await?;
+                    resp.json::<Vec<Adherent>>().await
+                }
+                .await
                 {
-                    if let Ok(data) = resp.json::<Vec<Adherent>>().await {
-                        adherents.set(data);
-                    }
+                    adherents.set(data);
                 }
             });
         })

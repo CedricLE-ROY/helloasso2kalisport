@@ -99,7 +99,7 @@ pub async fn run() {
             Method::OPTIONS,
         ]));
     let addr = std::net::SocketAddr::from(([127, 0, 0, 1], 8080));
-    println!("Serveur backend lancé sur http://{}", addr);
+    println!("Serveur backend lancé sur http://{addr}");
 
     let listener = TcpListener::bind(addr).await.unwrap();
     axum::serve(listener, app).await.unwrap();

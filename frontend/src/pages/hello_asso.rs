@@ -13,10 +13,13 @@ pub fn hello_asso_page() -> Html {
 
     let fetch_saisons = move |state: UseStateHandle<Vec<Saison>>| {
         spawn_local(async move {
-            if let Ok(resp) = Request::get("/api/saisons").send().await {
-                if let Ok(data) = resp.json::<Vec<Saison>>().await {
-                    state.set(data);
-                }
+            if let Ok(data) = async {
+                let resp = Request::get("/api/saisons").send().await?;
+                resp.json::<Vec<Saison>>().await
+            }
+            .await
+            {
+                state.set(data);
             }
         });
     };
