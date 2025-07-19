@@ -6,7 +6,7 @@ Ce projet permet de relier les inscriptions HelloAsso au logiciel Kalisport. Il 
 
 Le serveur backend écoute sur le **port 8080**. Deux stratégies sont possibles pour le frontend :
 
-1. Lancer le backend en premier puis exécuter `trunk serve --open`. Trunk détectera que le port 8080 est pris et se lancera automatiquement sur `http://localhost:8081`.
+1. Lancer le backend en premier puis exécuter `trunk serve --open` **depuis le dossier `frontend/`**. Trunk détectera que le port 8080 est pris et se lancera automatiquement sur `http://localhost:8081`.
 2. Ou spécifier directement un port libre pour Trunk :
 
 ```bash
@@ -14,6 +14,7 @@ Le serveur backend écoute sur le **port 8080**. Deux stratégies sont possibles
 cargo run -p backend
 
 # Frontend sur un autre port, par exemple 8081
+cd frontend
 trunk serve --port 8081 --open
 ```
 
