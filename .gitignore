@@ -3,3 +3,4 @@
 /frontend/target/
 /shared/target/
 /frontend/dist/
+.env
