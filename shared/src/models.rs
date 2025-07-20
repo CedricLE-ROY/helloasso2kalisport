@@ -16,3 +16,16 @@ pub struct Saison {
     pub id: u32,
     pub nom: String,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct HelloAssoForm {
+    pub id: i64,
+    pub name: String,
+    #[serde(rename = "type")]
+    pub form_type: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct HelloAssoForms {
+    pub data: Vec<HelloAssoForm>,
+}
