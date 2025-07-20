@@ -151,6 +151,7 @@ dependencies = [
  "axum",
  "chrono",
  "csv",
+ "dotenvy",
  "jsonwebtoken",
  "reqwest",
  "serde",

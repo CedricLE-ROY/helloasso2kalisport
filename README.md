@@ -30,3 +30,17 @@ port = 8081
 backend = "http://localhost:8080/api"
 rewrite = "/api"
 ```
+
+## Configuration HelloAsso
+
+Le backend nécessite plusieurs variables d'environnement pour interagir avec l'API HelloAsso :
+
+```bash
+HELLOASSO_CLIENT_ID="votre client id"
+HELLOASSO_CLIENT_SECRET="votre client secret"
+HELLOASSO_ORGANIZATION_SLUG="mon-association"
+```
+
+Ces variables peuvent être placées dans un fichier `.env` à la racine du projet.
+Une route de test est exposée sur `/api/helloasso/forms` pour récupérer la liste
+des formulaires de l'organisation configurée.

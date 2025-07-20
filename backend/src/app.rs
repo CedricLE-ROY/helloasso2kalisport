@@ -1,8 +1,8 @@
 use axum::{
-    Json, Router,
     extract::{Path, State},
-    http::Method,
+    http::{Method, StatusCode},
     routing::get,
+    Json, Router,
 };
 use chrono::NaiveDate;
 use shared::{Adherent, Saison};
@@ -11,10 +11,13 @@ use tokio::{net::TcpListener, sync::RwLock};
 use tower_cookies::CookieManagerLayer;
 use tower_http::cors::{Any, CorsLayer};
 
-#[derive(Default)]
+use crate::helloasso::HelloAssoClient;
+
 pub struct AppState {
     pub saisons: RwLock<Vec<Saison>>,
     pub adherents: RwLock<HashMap<u32, Vec<Adherent>>>,
+    pub helloasso: HelloAssoClient,
+    pub org_slug: String,
 }
 
 async fn list_saisons(State(state): State<Arc<AppState>>) -> Json<Vec<Saison>> {
@@ -34,6 +37,16 @@ async fn list_adherents(
         .cloned()
         .unwrap_or_default();
     Json(adherents)
+}
+
+async fn list_forms(
+    State(state): State<Arc<AppState>>,
+) -> Result<Json<serde_json::Value>, StatusCode> {
+    let path = format!("/v5/organizations/{}/forms", state.org_slug);
+    match state.helloasso.get_json(&path).await {
+        Ok(v) => Ok(Json(v)),
+        Err(_) => Err(StatusCode::BAD_GATEWAY),
+    }
 }
 
 fn example_data() -> (Vec<Saison>, HashMap<u32, Vec<Adherent>>) {
@@ -83,14 +96,19 @@ fn example_data() -> (Vec<Saison>, HashMap<u32, Vec<Adherent>>) {
 
 pub async fn run() {
     let (saisons, adherents) = example_data();
+    let helloasso = HelloAssoClient::new_from_env().expect("HELLOASSO credentials");
+    let org_slug = std::env::var("HELLOASSO_ORGANIZATION_SLUG").unwrap_or_default();
     let state = Arc::new(AppState {
         saisons: RwLock::new(saisons),
         adherents: RwLock::new(adherents),
+        helloasso,
+        org_slug,
     });
 
     let app = Router::new()
         .route("/api/saisons", get(list_saisons))
         .route("/api/saisons/:id/adhesions", get(list_adherents))
+        .route("/api/helloasso/forms", get(list_forms))
         .with_state(state)
         .layer(CookieManagerLayer::new())
         .layer(CorsLayer::new().allow_origin(Any).allow_methods([
