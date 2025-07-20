@@ -1,21 +1,19 @@
-use crate::routes::Route;
 use gloo_net::http::Request;
-use shared::Saison;
+use shared::{HelloAssoForm, HelloAssoForms};
 use wasm_bindgen_futures::spawn_local;
 use web_sys::MouseEvent;
 use yew::prelude::*;
-use yew_router::prelude::Link;
 
 /// Page listing all memberships with a refresh button
 #[function_component(HelloAssoPage)]
 pub fn hello_asso_page() -> Html {
-    let saisons = use_state(Vec::<Saison>::new);
+    let forms = use_state(Vec::<HelloAssoForm>::new);
 
-    let fetch_saisons = move |state: UseStateHandle<Vec<Saison>>| {
+    let fetch_forms = move |state: UseStateHandle<Vec<HelloAssoForm>>| {
         spawn_local(async move {
             if let Ok(data) = async {
-                let resp = Request::get("/api/saisons").send().await?;
-                resp.json::<Vec<Saison>>().await
+                let resp = Request::get("/api/helloasso/forms").send().await?;
+                resp.json::<HelloAssoForms>().await.map(|f| f.data)
             }
             .await
             {
@@ -25,16 +23,16 @@ pub fn hello_asso_page() -> Html {
     };
 
     let load = {
-        let saisons = saisons.clone();
+        let forms = forms.clone();
         Callback::from(move |_e: MouseEvent| {
-            fetch_saisons(saisons.clone());
+            fetch_forms(forms.clone());
         })
     };
 
     {
-        let saisons = saisons.clone();
+        let forms = forms.clone();
         use_effect(move || {
-            fetch_saisons(saisons);
+            fetch_forms(forms);
             || ()
         });
     }
@@ -44,12 +42,8 @@ pub fn hello_asso_page() -> Html {
             <h1>{ "Adhésions" }</h1>
             <button onclick={load.clone()}>{ "Rafraîchir" }</button>
             <ul>
-                { for saisons.iter().map(|s| html!{
-                    <li>
-                        <Link<Route> to={Route::Saison { id: s.id }}>
-                            { &s.nom }
-                        </Link<Route>>
-                    </li>
+                { for forms.iter().map(|f| html!{
+                    <li>{ &f.name }</li>
                 }) }
             </ul>
         </div>

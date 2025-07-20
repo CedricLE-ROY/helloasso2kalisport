@@ -1,11 +1,12 @@
 use axum::{
+    Json, Router,
     extract::{Path, State},
     http::{Method, StatusCode},
     routing::get,
-    Json, Router,
 };
 use chrono::NaiveDate;
-use shared::{Adherent, Saison};
+use serde_json::from_value;
+use shared::{Adherent, HelloAssoForms, Saison};
 use std::{collections::HashMap, sync::Arc};
 use tokio::{net::TcpListener, sync::RwLock};
 use tower_cookies::CookieManagerLayer;
@@ -41,10 +42,12 @@ async fn list_adherents(
 
 async fn list_forms(
     State(state): State<Arc<AppState>>,
-) -> Result<Json<serde_json::Value>, StatusCode> {
+) -> Result<Json<HelloAssoForms>, StatusCode> {
     let path = format!("/v5/organizations/{}/forms", state.org_slug);
     match state.helloasso.get_json(&path).await {
-        Ok(v) => Ok(Json(v)),
+        Ok(v) => from_value::<HelloAssoForms>(v)
+            .map(Json)
+            .map_err(|_| StatusCode::BAD_GATEWAY),
         Err(_) => Err(StatusCode::BAD_GATEWAY),
     }
 }
